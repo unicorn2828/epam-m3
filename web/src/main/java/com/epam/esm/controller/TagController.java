@@ -34,6 +34,14 @@ public class TagController {
         return hateoas.add(tag);
     }
 
+    @GetMapping(value = "/super")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public  TagsDto findSuperTag() {
+        TagsDto tags = tagService.findWidelyTag();
+        return hateoas.add(tags);
+    }
+
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)

@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 import static com.epam.esm.model.Role.ROLE_ADMIN;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -26,6 +28,7 @@ public class TagHateoas {
 
     public TagsDto add(TagsDto tags) {
         tags.getTags().forEach(tag -> add(tag));
+        tags.add(linkTo(methodOn(TagController.class).findAll(new HashMap<>())).withSelfRel());
         return tags;
     }
 }

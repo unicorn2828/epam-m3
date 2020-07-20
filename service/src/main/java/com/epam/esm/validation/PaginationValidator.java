@@ -14,6 +14,7 @@ import static com.epam.esm.exception.ServiceExceptionCode.PAGE_NUMBER_OR_SIZE_LE
 @Component
 @RequiredArgsConstructor
 public class PaginationValidator {
+    private static final String NUMBER_PATTER = "-?\\d+(\\.\\d+)?";
     private ServiceExceptionCode errorCode;
 
     public boolean isPageNumberOrSize(int number) {
@@ -26,7 +27,7 @@ public class PaginationValidator {
     }
 
     public boolean isNumber(String number) {
-        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        Pattern pattern = Pattern.compile(NUMBER_PATTER);
         if (number == null) {
             return false;
         }

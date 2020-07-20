@@ -6,6 +6,8 @@ import com.epam.esm.dto.OrdersDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -22,6 +24,7 @@ public class OrderHateoas {
 
     public OrdersDto add(OrdersDto orders) {
         orders.getOrders().forEach(order -> add(order));
+        orders.add(linkTo(methodOn(OrderController.class).findAll(new HashMap<>())).withSelfRel());
         return orders;
     }
 }

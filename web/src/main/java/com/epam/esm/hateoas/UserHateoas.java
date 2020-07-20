@@ -5,6 +5,8 @@ import com.epam.esm.dto.UserDto;
 import com.epam.esm.dto.UsersDto;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -18,6 +20,7 @@ public class UserHateoas {
 
     public UsersDto add(UsersDto users) {
         users.getUsers().forEach(user -> add(user));
+        users.add(linkTo(methodOn(UserController.class).findAll(new HashMap<>())).withSelfRel());
         return users;
     }
 }

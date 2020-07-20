@@ -14,7 +14,7 @@ import static com.epam.esm.builder.QueryBuilderData.*;
 public class QueryBuilder {
     public String buildQuery(Map<String, String> params, String tableName) {
         String sortingOrder = ASCENDING;
-        String searchBy = All;
+        String searchBy = ALL;
         String sortBy = ID;
         String searchByParam = null;
         for (String param : params.keySet()) {
@@ -51,44 +51,66 @@ public class QueryBuilder {
         String select = getSelectString(tableName);
         String orderBy = getSortString(sortBy, sortingOrder, tableName);
         switch (searchBy) {
-            case All:
-                sql = getAllString(select, orderBy);
+            case ALL:
+                sql = getAllQuery(select, orderBy);
                 break;
             case CERTIFICATE_TAG_NAME:
-                sql = getCertificateByTagName(searchByParam, select, orderBy);
+                sql = getCertificateByTagNameQuery(searchByParam, select, orderBy);
                 break;
             default:
-                sql = getDefaultString(select, searchBy, searchByParam, orderBy);
+                sql = getDefaultQuery(select, searchBy, searchByParam, orderBy);
         }
         return sql;
     }
 
-    private String getSortString(String sortBy, String sortingOrder, String tableName) {
-        if(!SortStringValidator.isValidSortData(sortBy, tableName)){
-            sortBy = ID;
-        }
-        return "ORDER BY x." + sortBy + " " + sortingOrder;
-    }
-
-    private String getSelectString(String tableName) {
-        return "SELECT x FROM " + tableName + " x ";
-    }
-
-    private String getAllString(String select, String orderBy) {
+    private String getAllQuery(String select, String orderBy) {
         return select + orderBy;
     }
 
-    private String getDefaultString(String select, String searchBy, String searchByParam, String orderBy) {
-        return select + "WHERE x." + searchBy + " " + "LIKE CONCAT('" + searchByParam + "', '%') " + orderBy;
+    private String getDefaultQuery(String select, String searchBy, String searchByParam, String orderBy) {
+        StringBuilder query = new StringBuilder();
+        query.append(select);
+        query.append(WHERE_X);
+        query.append(searchBy);
+        query.append(LIKE_CONCAT);
+        query.append(searchByParam);
+        query.append(HOOKS);
+        query.append(orderBy);
+        return query.toString();
     }
 
-    private String getCertificateByTagName(String searchByParam, String select, String orderBy) {
-        List<String> tagNames = Arrays.asList(searchByParam.split(","));
-        StringJoiner joiner = new StringJoiner(",");
-        tagNames.forEach(tagName -> joiner.add("'" + tagName.trim() + "'"));
-        return select + "LEFT JOIN FETCH x.tags t " + "WHERE x.id " +
-               "IN (SELECT cc.id FROM Certificate cc LEFT JOIN cc.tags tt WHERE tt.tagName " +
-               "IN (" + joiner.toString() + ") GROUP BY cc.id HAVING COUNT (cc.id) >= " + tagNames.size() + ") "
-               + orderBy;
+    private String getCertificateByTagNameQuery(String searchByParam, String select, String orderBy) {
+        List<String> tagNames = Arrays.asList(searchByParam.split(COMMA));
+        StringJoiner joiner = new StringJoiner(COMMA);
+        tagNames.forEach(tagName -> joiner.add(APOSTROPHE + tagName.trim() + APOSTROPHE));
+        StringBuilder query = new StringBuilder();
+        query.append(select);
+        query.append(LEFT_JOIN_FETCH);
+        query.append(joiner.toString());
+        query.append(HAVING_COUNT);
+        query.append(tagNames.size());
+        query.append(HOOK);
+        query.append(orderBy);
+        return query.toString();
+    }
+
+    private String getSortString(String sortBy, String sortingOrder, String tableName) {
+        if (!SortStringValidator.isValidSortData(sortBy, tableName)) {
+            sortBy = ID;
+        }
+        StringBuilder query = new StringBuilder();
+        query.append(ORDER_BY);
+        query.append(sortBy);
+        query.append(sortingOrder);
+        System.out.println(query.toString());
+        return query.toString();
+    }
+
+    private String getSelectString(String tableName) {
+        StringBuilder query = new StringBuilder();
+        query.append(SELECT_FROM);
+        query.append(tableName);
+        query.append(X);
+        return query.toString();
     }
 }

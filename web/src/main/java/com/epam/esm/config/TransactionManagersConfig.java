@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class TransactionManagersConfig {
     @Autowired
-    EntityManagerFactory emf;
+    private EntityManagerFactory emf;
     @Autowired
     private DataSource dataSource;
 

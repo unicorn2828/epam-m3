@@ -31,8 +31,6 @@ public class CertificateValidator {
         errorCode = NO_ERROR;
         if (certificate == null) {
             errorCode = CERTIFICATE_IS_NULL;
-            log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
-            throw new ServiceException(errorCode);
         }
         isName(certificate.getCertificateName().strip());
         isDescription(certificate.getDescription());
@@ -40,6 +38,10 @@ public class CertificateValidator {
         isDuration(certificate.getDuration());
         if (certificate.getTags() != null) {
             certificate.getTags().stream().allMatch(tagValidator::isTag);
+        }
+        if (errorCode != NO_ERROR) {
+            log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
+            throw new ServiceException(errorCode);
         }
         return true;
     }
@@ -51,13 +53,11 @@ public class CertificateValidator {
         } else if (id < 1) {
             errorCode = CERTIFICATE_ID_LESS_THAN_1;
         }
-        if (errorCode == NO_ERROR) {
-            return true;
-        } else {
-            System.out.println(errorCode);
+        if (errorCode != NO_ERROR) {
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
+        return true;
     }
 
     public boolean isName(String name) {
@@ -71,12 +71,11 @@ public class CertificateValidator {
         } else if (name.length() < MIN_NAME) {
             errorCode = CERTIFICATE_NAME_LESS_THAN_3;
         }
-        if (errorCode == NO_ERROR) {
-            return true;
-        } else {
+        if (errorCode != NO_ERROR) {
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
+        return true;
     }
 
     private boolean isDescription(String description) {
@@ -88,12 +87,11 @@ public class CertificateValidator {
         } else if (description.length() > 0 && description.length() < MIN_DESCRIPTION) {
             errorCode = CERTIFICATE_DESCRIPTION_LESS_THAN_3;
         }
-        if (errorCode == NO_ERROR) {
-            return true;
-        } else {
+        if (errorCode != NO_ERROR) {
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
+        return true;
     }
 
     public boolean isPrice(BigDecimal price) {
@@ -105,12 +103,11 @@ public class CertificateValidator {
         } else if (price.compareTo(new BigDecimal(MIN_PRICE)) < 0) {
             errorCode = CERTIFICATE_PRICE_LESS_THAN_0;
         }
-        if (errorCode == NO_ERROR) {
-            return true;
-        } else {
+        if (errorCode != NO_ERROR) {
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
+        return true;
     }
 
     public boolean isDate(LocalDate creationDate) {
@@ -120,12 +117,11 @@ public class CertificateValidator {
         } else if (creationDate.isAfter(LocalDate.now())) {
             errorCode = DATE_CREATION_AFTER_TODAY;
         }
-        if (errorCode == NO_ERROR) {
-            return true;
-        } else {
+        if (errorCode != NO_ERROR) {
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
+        return true;
     }
 
     private boolean isDuration(Integer duration) {
@@ -137,13 +133,10 @@ public class CertificateValidator {
         } else if (duration < MIN_DURATION) {
             errorCode = CERTIFICATE_DURATION_LESS_THAN_1;
         }
-        if (errorCode == NO_ERROR) {
-            return true;
-        } else {
+        if (errorCode != NO_ERROR) {
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
+        return true;
     }
-
-
 }

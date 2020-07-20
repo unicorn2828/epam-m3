@@ -10,9 +10,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
-import static com.epam.esm.model.Role.*;
+import static com.epam.esm.model.Role.ROLE_ADMIN;
+import static com.epam.esm.model.Role.ROLE_USER;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -45,6 +47,7 @@ public class CertificateHateoas {
 
     public CertificatesDto add(CertificatesDto certificates) {
         certificates.getCertificates().forEach(certificate -> add(certificate));
+        certificates.add(linkTo(methodOn(CertificateController.class).findAll(new HashMap<>())).withSelfRel());
         return certificates;
     }
 }

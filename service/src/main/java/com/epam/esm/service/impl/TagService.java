@@ -76,6 +76,17 @@ public class TagService implements ITagService {
     }
 
     @Override
+    public TagsDto findWidelyTag() {
+        List<Tag> tagList = tagRepository.findWidelyTag();
+        List<TagDto> tagDtoList = tagList.stream()
+                                         .map(mapper::toTagDto)
+                                         .collect(Collectors.toList());
+        TagsDto tagsDto = new TagsDto();
+        tagsDto.setTags(tagDtoList);
+        return tagsDto;
+    }
+
+    @Override
     public TagDto create(TagDto dto) {
         if (tagRepository.findByName(dto.getTagName()).isPresent()) {
             ServiceExceptionCode errorCode = TAG_WITH_THIS_NAME_ALREADY_EXISTS;
