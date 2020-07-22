@@ -6,7 +6,6 @@ import com.epam.esm.dto.TagDto;
 import com.epam.esm.dto.TagsDto;
 import com.epam.esm.exception.ServiceException;
 import com.epam.esm.exception.ServiceExceptionCode;
-import com.epam.esm.mapper.DtoMapper;
 import com.epam.esm.model.Tag;
 import com.epam.esm.repository.ITagRepository;
 import com.epam.esm.service.DataProcessingService;
@@ -14,6 +13,7 @@ import com.epam.esm.service.ITagService;
 import com.epam.esm.validation.TagValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.epam.esm.exception.ServiceExceptionCode.*;
+import static com.epam.esm.service.DataProcessingService.PageParamType.PAGE_NUMBER;
+import static com.epam.esm.service.DataProcessingService.PageParamType.PAGE_SIZE;
 
 @Slf4j
 @Service("tagService")
@@ -31,25 +33,25 @@ public class TagService implements ITagService {
     private final ITagRepository tagRepository;
     private final QueryBuilder queryBuilder;
     private final TagValidator validator;
-    private final DtoMapper mapper;
+    private final ModelMapper mapper;
 
     @Override
     public TagDto find(long id) {
         validator.isId(id);
         Tag tag = tagRepository.find(id).orElseThrow(() -> new ServiceException(TAG_WITH_THIS_ID_DOES_NOT_EXIST));
-        return mapper.toTagDto(tag);
+        return mapper.map(tag, TagDto.class);
     }
 
     @Override
     public TagsDto findAll(Map<String, String> params) {
         params = service.toCamelCase(params);
-        int pageNumber = service.receivePageNumber(params);
-        int pageSize = service.receivePageSize(params);
+        int pageNumber = service.receivePageParam(params, PAGE_NUMBER);
+        int pageSize = service.receivePageParam(params, PAGE_SIZE);
         List<Tag> tagList = tagRepository.findAll(pageNumber,
                                                   pageSize,
                                                   queryBuilder.buildQuery(params, Tag.class.getSimpleName()));
         List<TagDto> tagDtoList = tagList.stream()
-                                         .map(mapper::toTagDto)
+                                         .map(t -> mapper.map(t, TagDto.class))
                                          .collect(Collectors.toList());
         if (tagDtoList.isEmpty()) {
             ServiceExceptionCode exception = TAG_WITH_THIS_NAME_DOES_NOT_EXIST;
@@ -76,25 +78,16 @@ public class TagService implements ITagService {
     }
 
     @Override
-    public TagsDto findWidelyTag() {
-        List<Tag> tagList = tagRepository.findWidelyTag();
-        List<TagDto> tagDtoList = tagList.stream()
-                                         .map(mapper::toTagDto)
-                                         .collect(Collectors.toList());
-        TagsDto tagsDto = new TagsDto();
-        tagsDto.setTags(tagDtoList);
-        return tagsDto;
-    }
-
-    @Override
+    @Transactional
     public TagDto create(TagDto dto) {
+        validator.isTag(dto);
         if (tagRepository.findByName(dto.getTagName()).isPresent()) {
             ServiceExceptionCode errorCode = TAG_WITH_THIS_NAME_ALREADY_EXISTS;
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
-        Tag tag = tagRepository.save(mapper.toTag(dto));
+        Tag tag = tagRepository.save(mapper.map(dto, Tag.class));
         log.info("tag {} created", tag.getId());
-        return mapper.toTagDto(tag);
+        return mapper.map(tag, TagDto.class);
     }
 }

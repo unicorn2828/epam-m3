@@ -1,11 +1,10 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.dto.AuthUserDto;
-import com.epam.esm.dto.OrdersDto;
-import com.epam.esm.dto.UserDto;
-import com.epam.esm.dto.UsersDto;
+import com.epam.esm.dto.*;
 import com.epam.esm.hateoas.OrderHateoas;
+import com.epam.esm.hateoas.TagHateoas;
 import com.epam.esm.hateoas.UserHateoas;
+import com.epam.esm.service.IRegistrationService;
 import com.epam.esm.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,20 +25,22 @@ import java.util.Map;
                 consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
+    private final IRegistrationService registrationService;
     private final OrderHateoas orderHateoas;
     private final IUserService userService;
+    private final TagHateoas tagHateoas;
     private final UserHateoas hateoas;
 
     @PostMapping(value = "/logIn")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> logIn(@Valid @RequestBody AuthUserDto authUserDto) {
-        return userService.signIn(authUserDto);
+        return registrationService.signIn(authUserDto);
     }
 
     @PostMapping(value = "/signUp")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto register(@Valid @RequestBody UserDto userDto) {
-        UserDto user = userService.register(userDto);
+        UserDto user = registrationService.register(userDto);
         return hateoas.add(user);
     }
 
@@ -65,5 +66,13 @@ public class UserController {
     public UsersDto findAll(@Valid @RequestParam Map<String, String> allParams) {
         UsersDto users = userService.findAll(allParams);
         return hateoas.add(users);
+    }
+
+    @GetMapping(value = "/{userId}/superTag")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public TagsDto findSuperTag(@Valid @PathVariable final long userId) {
+        TagsDto tags = userService.findUserSuperTag(userId);
+        return tagHateoas.add(tags);
     }
 }

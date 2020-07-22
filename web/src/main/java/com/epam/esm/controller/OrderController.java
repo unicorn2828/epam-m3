@@ -35,7 +35,7 @@ public class OrderController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public OrdersDto findAll(@RequestParam Map<String, String> allParams) {
         OrdersDto orders = orderService.findAll(allParams);

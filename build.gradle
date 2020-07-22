@@ -33,9 +33,6 @@ subprojects {
         implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
         implementation "org.springframework.boot:spring-boot-starter-hateoas:${springBootVersion}"
         testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-
-
-
     }
 }
 allprojects {

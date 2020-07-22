@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 
 import static com.epam.esm.builder.QueryBuilderData.*;
 
-public class SortStringValidator {
+class SortStringValidator {
 
-    public static boolean isValidSortData(String in, String className) {
+    static boolean isValidSortData(String in, String className) {
         String classPath = PACKAGE + className + CLASS_NAME_SUFFIX;
         boolean condition = false;
         in = in.toLowerCase().trim();
@@ -19,7 +19,7 @@ public class SortStringValidator {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             String fieldName = field.toString();
-            int lastDotIndex = fieldName.lastIndexOf('.');
+            int lastDotIndex = fieldName.lastIndexOf(POINT);
             fieldName = fieldName.substring(lastDotIndex + 1);
             if (String.valueOf(in.charAt(0)).equals(MINUS)) {
                 in = in.substring(1).trim();

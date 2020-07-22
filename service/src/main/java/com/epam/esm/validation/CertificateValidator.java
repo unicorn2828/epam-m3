@@ -22,17 +22,16 @@ public class CertificateValidator {
     private static final long MIN_PRICE = 0;
     private static final long MAX_DESCRIPTION = 100;
     private static final long MIN_DESCRIPTION = 3;
-    private static final long MAX_NAME = 30;
-    private static final long MIN_NAME = 3;
     private ServiceExceptionCode errorCode;
     private final TagValidator tagValidator;
+    private final CommonValidator commonValidator;
 
     public boolean isCertificate(CertificateDto certificate) {
         errorCode = NO_ERROR;
         if (certificate == null) {
             errorCode = CERTIFICATE_IS_NULL;
         }
-        isName(certificate.getCertificateName().strip());
+        isName(certificate.getCertificateName().trim());
         isDescription(certificate.getDescription());
         isPrice(certificate.getPrice());
         isDuration(certificate.getDuration());
@@ -46,36 +45,12 @@ public class CertificateValidator {
         return true;
     }
 
-    public boolean isId(Long id) {
-        errorCode = NO_ERROR;
-        if (id == null) {
-            errorCode = CERTIFICATE_ID_IS_NULL;
-        } else if (id < 1) {
-            errorCode = CERTIFICATE_ID_LESS_THAN_1;
-        }
-        if (errorCode != NO_ERROR) {
-            log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
-            throw new ServiceException(errorCode);
-        }
-        return true;
+    public boolean isId(Long certificateId) {
+        return commonValidator.isId(certificateId);
     }
 
-    public boolean isName(String name) {
-        errorCode = NO_ERROR;
-        if (name == null) {
-            errorCode = CERTIFICATE_NAME_IS_NULL;
-        } else if (name.isEmpty()) {
-            errorCode = CERTIFICATE_NAME_IS_EMPTY;
-        } else if (name.length() > MAX_NAME) {
-            errorCode = CERTIFICATE_NAME_MORE_30;
-        } else if (name.length() < MIN_NAME) {
-            errorCode = CERTIFICATE_NAME_LESS_THAN_3;
-        }
-        if (errorCode != NO_ERROR) {
-            log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
-            throw new ServiceException(errorCode);
-        }
-        return true;
+    public boolean isName(String certificateName) {
+        return commonValidator.isName(certificateName);
     }
 
     private boolean isDescription(String description) {

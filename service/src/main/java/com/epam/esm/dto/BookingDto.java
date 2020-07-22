@@ -9,5 +9,4 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookingDto {
     private List<Long> certificates;
-
 }

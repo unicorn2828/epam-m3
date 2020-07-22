@@ -6,8 +6,8 @@ import com.epam.esm.dto.CertificatePriceDto;
 import com.epam.esm.dto.CertificatesDto;
 import com.epam.esm.exception.ServiceException;
 import com.epam.esm.exception.ServiceExceptionCode;
-import com.epam.esm.mapper.DtoMapper;
 import com.epam.esm.model.Certificate;
+import com.epam.esm.model.Tag;
 import com.epam.esm.repository.ICertificateRepository;
 import com.epam.esm.repository.ITagRepository;
 import com.epam.esm.service.DataProcessingService;
@@ -16,6 +16,7 @@ import com.epam.esm.validation.CertificateValidator;
 import com.epam.esm.validation.TagValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 
 import static com.epam.esm.exception.ServiceExceptionCode.CERTIFICATE_IS_ORDERED;
 import static com.epam.esm.exception.ServiceExceptionCode.CERTIFICATE_WITH_THIS_ID_DOES_NOT_EXIST;
+import static com.epam.esm.service.DataProcessingService.PageParamType.PAGE_NUMBER;
+import static com.epam.esm.service.DataProcessingService.PageParamType.PAGE_SIZE;
 
 @Slf4j
 @Service("certificateService")
@@ -38,27 +41,29 @@ public class CertificateService implements ICertificateService {
     private final ITagRepository tagRepository;
     private final TagValidator tagValidator;
     private final QueryBuilder queryBuilder;
-    private final DtoMapper mapper;
+    private final ModelMapper mapper;
 
     @Override
+    @Transactional(readOnly = true)
     public CertificateDto find(long id) {
         validator.isId(id);
         Certificate certificate = certificateRepository.find(id)
                                                        .orElseThrow(() -> new ServiceException(CERTIFICATE_WITH_THIS_ID_DOES_NOT_EXIST));
-        return mapper.toCertificateDto(certificate);
+        return mapper.map(certificate, CertificateDto.class);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CertificatesDto findAll(Map<String, String> params) {
         params = service.toCamelCase(params);
-        int pageNumber = service.receivePageNumber(params);
-        int pageSize = service.receivePageSize(params);
+        int pageNumber = service.receivePageParam(params, PAGE_NUMBER);
+        int pageSize = service.receivePageParam(params, PAGE_SIZE);
         List<Certificate> certificates = certificateRepository.findAll(pageNumber,
                                                                        pageSize,
                                                                        queryBuilder.buildQuery(params,
                                                                                                Certificate.class.getSimpleName()));
         List<CertificateDto> certificateDtoList = certificates.stream()
-                                                              .map(mapper::toCertificateDto)
+                                                              .map(c -> mapper.map(c, CertificateDto.class))
                                                               .collect(Collectors.toList());
         CertificatesDto certificatesDto = new CertificatesDto();
         certificatesDto.setCertificates(certificateDtoList);
@@ -94,9 +99,9 @@ public class CertificateService implements ICertificateService {
         if (certificateDto.getTags() != null) {
             updateTags(certificateDto);
         }
-        Certificate certificate = certificateRepository.save(mapper.toCertificate(certificateDto));
+        Certificate certificate = certificateRepository.save(mapper.map(certificateDto, Certificate.class));
         log.info("certificate {} created", certificate.getId());
-        return mapper.toCertificateDto(certificate);
+        return mapper.map(certificate, CertificateDto.class);
     }
 
     @Override
@@ -114,9 +119,9 @@ public class CertificateService implements ICertificateService {
         if (certificateDto.getTags() != null) {
             updateTags(certificateDto);
         }
-        Certificate certificate = certificateRepository.update(mapper.toCertificate(certificateDto));
+        Certificate certificate = certificateRepository.update(mapper.map(certificateDto, Certificate.class));
         log.info("certificate {} updated", certificate.getId());
-        return mapper.toCertificateDto(certificate);
+        return mapper.map(certificate, CertificateDto.class);
     }
 
     @Override
@@ -132,16 +137,15 @@ public class CertificateService implements ICertificateService {
         }
         Certificate certificate = certificateRepository.updatePrice(newPrice, LocalDate.now(), id);
         log.info("certificate {} price updated", certificate.getId());
-        return mapper.toCertificateDto(certificate);
+        return mapper.map(certificate, CertificateDto.class);
     }
 
     private void updateTags(CertificateDto certificateDto) {
-        certificateDto.getTags()
-                      .forEach(tagValidator::isTag);
+        tagValidator.isTag(certificateDto.getTags());
         certificateDto.getTags()
                       .stream()
-                      .filter(c -> !tagRepository.findByName(c.getTagName()).isPresent())
-                      .forEach(c -> tagRepository.save(mapper.toTag(c)));
+                      .filter(tag -> !tagRepository.findByName(tag.getTagName()).isPresent())
+                      .forEach(tag -> tagRepository.save(mapper.map(tag, Tag.class)));
         certificateDto.getTags()
                       .forEach(tagDto -> tagDto.setId(tagRepository.findByName(tagDto.getTagName())
                                                                    .get()

@@ -2,7 +2,6 @@ package com.epam.esm.config;
 
 import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.TagDto;
-import com.epam.esm.mapper.DtoMapper;
 import com.epam.esm.model.Certificate;
 import com.epam.esm.model.Tag;
 import org.modelmapper.ModelMapper;
@@ -32,11 +31,6 @@ public class WebAppConfig {
     @Bean
     public CertificateDto certificateDto() {
         return new CertificateDto();
-    }
-
-    @Bean
-    public DtoMapper dtoMapper() {
-        return new DtoMapper();
     }
 
     @Bean

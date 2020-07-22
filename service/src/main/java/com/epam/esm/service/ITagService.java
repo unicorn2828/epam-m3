@@ -13,6 +13,4 @@ public interface ITagService extends IBaseService<TagDto, TagsDto>{
     TagDto create(final TagDto dto);
 
     void delete(final long id);
-
-    TagsDto findWidelyTag();
 }

@@ -27,10 +27,10 @@ public class PaginationValidator {
     }
 
     public boolean isNumber(String number) {
-        Pattern pattern = Pattern.compile(NUMBER_PATTER);
         if (number == null) {
             return false;
         }
+        Pattern pattern = Pattern.compile(NUMBER_PATTER);
         return pattern.matcher(number).matches();
     }
 }

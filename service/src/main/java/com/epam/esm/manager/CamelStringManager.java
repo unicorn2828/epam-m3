@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static com.epam.esm.exception.ServiceExceptionCode.UNKNOWN_PARAMETER;
-import static com.epam.esm.manager.ManagerData.*;
+import static com.epam.esm.manager.data.ManagerData.*;
 
 @Slf4j
 @Component

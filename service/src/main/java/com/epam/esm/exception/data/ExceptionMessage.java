@@ -3,17 +3,17 @@ package com.epam.esm.exception.data;
 public class ExceptionMessage {
     public static final String ERROR_000000 = "no error";
     public static final String ERROR_000001 = "tag is null";
-    public static final String ERROR_000002 = "tag id less than 1";
-    public static final String ERROR_000003 = "tag name is null";
-    public static final String ERROR_000004 = "tag name is empty";
-    public static final String ERROR_000005 = "tag name less than 3";
-    public static final String ERROR_000006 = "tag name more than 30";
+    public static final String ERROR_000002 = "id is not a number";
+    public static final String ERROR_000003 = "name is null";
+    public static final String ERROR_000004 = "name is empty";
+    public static final String ERROR_000005 = "name less than 3";
+    public static final String ERROR_000006 = "name more than 30";
     public static final String ERROR_000008 = "tag with this name does not exist";
     public static final String ERROR_000009 = "tag id is null";
 
     public static final String ERROR_000010 = "certificate is null";
-    public static final String ERROR_000020 = "certificate id is null";
-    public static final String ERROR_000021 = "certificate id less than 1";
+    public static final String ERROR_000020 = "id is null";
+    public static final String ERROR_000021 = "id less than 1";
     public static final String ERROR_000030 = "certificate name is null";
     public static final String ERROR_000031 = "certificate name is empty";
     public static final String ERROR_000032 = "certificate name more than 30";

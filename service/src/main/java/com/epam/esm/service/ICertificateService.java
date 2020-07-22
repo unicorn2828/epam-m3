@@ -11,11 +11,11 @@ import com.epam.esm.dto.CertificatesDto;
  */
 public interface ICertificateService extends IBaseService<CertificateDto, CertificatesDto>{
 
-    void delete(final long id);
+    void delete(final long certificateId);
 
     CertificateDto create(final CertificateDto dto);
 
-    CertificateDto update(CertificateDto dto, Long id);
+    CertificateDto update(CertificateDto dto, Long certificateId);
 
-    CertificateDto updatePrice(CertificatePriceDto price, Long id);
+    CertificateDto updatePrice(CertificatePriceDto price, Long certificateId);
 }

@@ -22,6 +22,7 @@ class QueryBuilderData {
     static final String HOOK = ") ";
     static final String X = " x ";
     static final String COMMA = ",";
+    static final String POINT = "'.'";
     static final String APOSTROPHE = "'";
     static final String ORDER_BY = "ORDER BY x.";
     static final String WHERE_X = "WHERE x.";
