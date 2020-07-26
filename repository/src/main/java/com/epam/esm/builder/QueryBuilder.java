@@ -8,6 +8,12 @@ import java.util.Map;
 
 import static com.epam.esm.builder.QueryBuilderData.*;
 
+/**
+ * This is the QueryBuilder class; it builds query string by input params.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class QueryBuilder {

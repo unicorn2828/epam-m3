@@ -55,8 +55,8 @@ public class RegistrationService implements IRegistrationService {
     @Override
     @Transactional
     public ResponseEntity<?> signIn(AuthUserDto authUserDto) {
-        String login = authUserDto.getLogin();
-        validator.isLogin(login);
+        validator.isLogin(authUserDto.getLogin());
+        String login = authUserDto.getLogin().toLowerCase();
         String password = authUserDto.getPassword();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
@@ -77,7 +77,6 @@ public class RegistrationService implements IRegistrationService {
         DecodedJWT decodedJWT = JWT.decode(token);
         Map<String, String> model = new LinkedHashMap<>();
         model.put(KEY_TOKEN_SUBJECT, decodedJWT.getSubject());
-        model.put(KEY_TOKEN_ISSUED_AT, Long.toString(decodedJWT.getIssuedAt().getTime()));
         model.put(KEY_TOKEN_EXPIRATION, Long.toString(decodedJWT.getExpiresAt().getTime()));
         model.put(KEY_TOKEN_TYPE, VALUE_TOKEN_TYPE);
         model.put(KEY_TOKEN, token);
@@ -88,13 +87,13 @@ public class RegistrationService implements IRegistrationService {
     @Override
     @Transactional
     public UserDto register(UserDto userDto) {
-        if (userRepository.findByLogin(userDto.getLogin()).isPresent()) {
+        if (userRepository.findByLogin(userDto.getLogin().toLowerCase()).isPresent()) {
             ServiceExceptionCode errorCode = USER_WITH_THE_SAME_LOGIN_ALREADY_EXISTS;
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         } else if (userDto.getPassword().equals(userDto.getConfirmPassword())) {
             User user = new User();
-            user.setLogin(userDto.getLogin());
+            user.setLogin(userDto.getLogin().toLowerCase().trim());
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setEmail(userDto.getEmail());
             user.getRole().add(Role.ROLE_USER);
@@ -110,7 +109,8 @@ public class RegistrationService implements IRegistrationService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String login) {
+    public UserDetails loadUserByUsername(String userLogin) {
+        String login = userLogin.toLowerCase().trim();
         validator.isLogin(login);
         User user = userRepository.findByLogin(login)
                                   .orElseThrow(() -> new ServiceException(USER_WITH_THIS_LOGIN_DOES_NOT_EXIST));

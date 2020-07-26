@@ -1,5 +1,11 @@
 package com.epam.esm.builder;
 
+/**
+ * This is the QueryBuilderData class; it contains constant data for {@link QueryBuilder} class.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 class QueryBuilderData {
     static final String CERTIFICATE_TAG_NAME = "certificateTagName";
     static final String CERTIFICATE_NAME = "certificateName";

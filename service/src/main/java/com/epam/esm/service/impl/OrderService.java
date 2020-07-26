@@ -11,6 +11,7 @@ import com.epam.esm.repository.IUserRepository;
 import com.epam.esm.service.DataProcessingService;
 import com.epam.esm.service.IOrderService;
 import com.epam.esm.validation.CommonValidator;
+import com.epam.esm.validation.OrderValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,7 @@ public class OrderService implements IOrderService {
     private final DataProcessingService dataService;
     private final IOrderRepository orderRepository;
     private final IUserRepository userRepository;
+    private final OrderValidator orderValidator;
     private final CommonValidator validator;
     private final QueryBuilder queryBuilder;
     private final ModelMapper mapper;
@@ -45,12 +47,18 @@ public class OrderService implements IOrderService {
     @Override
     @Transactional
     public OrderDto create(Authentication authentication, BookingDto bookingDto) {
-        bookingDto.getCertificates().forEach(validator::isId);
+        orderValidator.isOrder(bookingDto);
+        bookingDto.getCertificates().forEach(o -> Long.valueOf(o).longValue());
+        List<Long> certificates = bookingDto.getCertificates()
+                                            .stream()
+                                            .map(o -> Long.valueOf(o).longValue())
+                                            .collect(Collectors.toList());
+        certificates.forEach(validator::isId);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         BigDecimal totalPrice = new BigDecimal(0);
         OrderDto orderDto = new OrderDto();
         List<CertificateDto> certificateList = new ArrayList<>();
-        for (Long id : bookingDto.getCertificates()) {
+        for (Long id : certificates) {
             CertificateDto certificate = certificateService.find(id);
             totalPrice = totalPrice.add(new BigDecimal(String.valueOf(certificate.getPrice())));
             certificateList.add(certificate);
@@ -67,7 +75,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public OrderDto find(long orderId) {
+    public OrderDto find(Long orderId) {
         validator.isId(orderId);
         Order order = orderRepository.find(orderId).orElseThrow(() -> new ServiceException(ORDER_WITH_THIS_ID_DOES_NOT_EXIST));
         OrderDto orderDto = mapper.map(order, OrderDto.class);

@@ -10,6 +10,14 @@ import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * This is the CertificateRepository class; it  extends {@link BaseAbstractRepository} class.
+ * <p>
+ * Please see the {@link BaseAbstractRepository} and {@link ICertificateRepository} classes for true identity.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 @Repository
 public class CertificateRepository extends BaseAbstractRepository<Certificate> implements ICertificateRepository {
     private static final String CERTIFICATE_PRICE = "price";
@@ -28,7 +36,7 @@ public class CertificateRepository extends BaseAbstractRepository<Certificate> i
     }
 
     @Override
-    public Certificate updatePrice(BigDecimal price, LocalDate modificationDate, Long id) {
+    public Certificate updatePrice(BigDecimal price, LocalDate modificationDate, long id) {
         Query query = entityManager.createQuery(UPDATE_PRICE);
         query.setParameter(CERTIFICATE_PRICE, price);
         query.setParameter(CERTIFICATE_MODIFICATION_DATE, modificationDate);

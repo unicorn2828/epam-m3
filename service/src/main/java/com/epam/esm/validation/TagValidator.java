@@ -28,8 +28,12 @@ public class TagValidator {
             errorCode = TAG_IS_NULL;
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
-        } else {
+        } else if (tag.getTagName() != null) {
             return isName(tag.getTagName());
+        } else {
+            errorCode = NAME_IS_NULL;
+            log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
+            throw new ServiceException(errorCode);
         }
     }
 

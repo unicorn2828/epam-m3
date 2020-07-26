@@ -5,6 +5,5 @@ import lombok.Data;
 
 @Data
 public class TagDto extends BaseDto {
-
     private String tagName;
 }

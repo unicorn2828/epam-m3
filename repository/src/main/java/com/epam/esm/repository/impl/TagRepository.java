@@ -9,6 +9,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
+/**
+ * This is the TagRepository class; it extends {@link BaseAbstractRepository} class.
+ * <p>
+ * Please see the {@link BaseAbstractRepository} and {@link ITagRepository} classes for true identity.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 @Repository
 public class TagRepository extends BaseAbstractRepository<Tag> implements ITagRepository {
     public static final String TAG_NAME = "tag_name";

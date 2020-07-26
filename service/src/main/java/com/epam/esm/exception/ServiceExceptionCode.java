@@ -3,6 +3,13 @@ package com.epam.esm.exception;
 import com.epam.esm.exception.data.ExceptionCode;
 import com.epam.esm.exception.data.ExceptionMessage;
 
+/**
+ * This is the ServiceExceptionCode enum class.
+ * This class contains all exceptions and links to the codes and messages of those exceptions.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 public enum ServiceExceptionCode {
     NO_ERROR(ExceptionCode.ERROR_000000, ExceptionMessage.ERROR_000000),
 
@@ -35,6 +42,8 @@ public enum ServiceExceptionCode {
     CERTIFICATE_PRICE_LESS_THAN_0(ExceptionCode.ERROR_000050, ExceptionMessage.ERROR_000050),
     CERTIFICATE_PRICE_MORE_THAN_100(ExceptionCode.ERROR_000051, ExceptionMessage.ERROR_000051),
     CERTIFICATE_PRICE_IS_NULL(ExceptionCode.ERROR_000052, ExceptionMessage.ERROR_000052),
+    CERTIFICATE_PRICE_IS_NOT_NUMBER(ExceptionCode.ERROR_000053, ExceptionMessage.ERROR_000053),
+    NEW_PRICE_PARAMETER_NOT_FOUND(ExceptionCode.ERROR_000054, ExceptionMessage.ERROR_000054),
     DATE_CREATION_IS_NULL(ExceptionCode.ERROR_000060, ExceptionMessage.ERROR_000060),
     DATE_CREATION_AFTER_TODAY(ExceptionCode.ERROR_000061, ExceptionMessage.ERROR_000061),
     DATE_MODIFICATION_IS_NULL(ExceptionCode.ERROR_000062, ExceptionMessage.ERROR_000062),
@@ -42,6 +51,20 @@ public enum ServiceExceptionCode {
     CERTIFICATE_DURATION_LESS_THAN_1(ExceptionCode.ERROR_000070, ExceptionMessage.ERROR_000070),
     CERTIFICATE_DURATION_MORE_THAN_365(ExceptionCode.ERROR_000071, ExceptionMessage.ERROR_000071),
     CERTIFICATE_DURATION_IS_NULL(ExceptionCode.ERROR_000072, ExceptionMessage.ERROR_000072),
+    PARAMETER_IS_NULL(ExceptionCode.ERROR_000073, ExceptionMessage.ERROR_000073),
+
+    UNKNOWN_EXCEPTION(ExceptionCode.ERROR_000080, ExceptionMessage.ERROR_000080),
+    CONSTRAINT_VIOLATION_EXCEPTION(ExceptionCode.ERROR_000081, ExceptionMessage.ERROR_000081),
+    METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION(ExceptionCode.ERROR_000082, ExceptionMessage.ERROR_000082),
+    METHOD_ARGUMENT_NOT_VALID_EXCEPTION(ExceptionCode.ERROR_000083, ExceptionMessage.ERROR_000083),
+    MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(ExceptionCode.ERROR_000084, ExceptionMessage.ERROR_000084),
+    NO_HANDLE_FOUND_EXCEPTION(ExceptionCode.ERROR_000085, ExceptionMessage.ERROR_000085),
+    HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(ExceptionCode.ERROR_000086, ExceptionMessage.ERROR_000086),
+    HTTP_MEDIA_TYPE_NOT_SUPPORTED_EXCEPTION(ExceptionCode.ERROR_000087, ExceptionMessage.ERROR_000087),
+
+    ORDER_IS_NULL(ExceptionCode.ERROR_000090, ExceptionMessage.ERROR_000090),
+    ORDER_IS_EMPTY(ExceptionCode.ERROR_000091, ExceptionMessage.ERROR_000091),
+    CERTIFICATES_PARAMETER_NOT_FOUND(ExceptionCode.ERROR_000092, ExceptionMessage.ERROR_000092),
 
     UNKNOWN_PARAMETER(ExceptionCode.ERROR_000100, ExceptionMessage.ERROR_000100),
     PAGE_NUMBER_OR_SIZE_LESS_1(ExceptionCode.ERROR_000102, ExceptionMessage.ERROR_000102),

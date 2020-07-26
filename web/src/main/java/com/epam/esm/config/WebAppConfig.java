@@ -8,7 +8,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
+/**
+ * This is the WebAppConfig class; it uses for this WebApp configuration.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 @Configuration
 @ComponentScan("com.epam.esm")
 public class WebAppConfig {

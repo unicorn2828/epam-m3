@@ -36,7 +36,7 @@ public class TagService implements ITagService {
     private final ModelMapper mapper;
 
     @Override
-    public TagDto find(long id) {
+    public TagDto find(Long id) {
         validator.isId(id);
         Tag tag = tagRepository.find(id).orElseThrow(() -> new ServiceException(TAG_WITH_THIS_ID_DOES_NOT_EXIST));
         return mapper.map(tag, TagDto.class);
@@ -65,7 +65,7 @@ public class TagService implements ITagService {
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         validator.isId(id);
         if (tagRepository.find(id).isPresent()) {
             tagRepository.delete(id);
@@ -79,14 +79,16 @@ public class TagService implements ITagService {
 
     @Override
     @Transactional
-    public TagDto create(TagDto dto) {
-        validator.isTag(dto);
-        if (tagRepository.findByName(dto.getTagName()).isPresent()) {
+    public TagDto create(TagDto tagDto) {
+        validator.isTag(tagDto);
+        String tagName = tagDto.getTagName().toLowerCase().trim();
+        tagDto.setTagName(tagName);
+        if (tagRepository.findByName(tagDto.getTagName()).isPresent()) {
             ServiceExceptionCode errorCode = TAG_WITH_THIS_NAME_ALREADY_EXISTS;
             log.error(errorCode.getExceptionCode() + ":" + errorCode.getExceptionMessage());
             throw new ServiceException(errorCode);
         }
-        Tag tag = tagRepository.save(mapper.map(dto, Tag.class));
+        Tag tag = tagRepository.save(mapper.map(tagDto, Tag.class));
         log.info("tag {} created", tag.getId());
         return mapper.map(tag, TagDto.class);
     }

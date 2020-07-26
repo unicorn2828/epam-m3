@@ -39,7 +39,7 @@ public class UserService implements IUserService {
     private final IUserRepository userRepository;
 
     @Override
-    public UserDto find(long userId) {
+    public UserDto find(Long userId) {
         validator.isId(userId);
         User user = userRepository.find(userId)
                                   .orElseThrow(() -> new ServiceException(USER_WITH_THIS_ID_DOES_NOT_EXIST));
@@ -57,7 +57,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public OrdersDto findUserOrders(long userId) {
+    public OrdersDto findUserOrders(Long userId) {
         validator.isId(userId);
         User user = userRepository.find(userId)
                                   .orElseThrow(() -> new ServiceException(USER_WITH_THIS_ID_DOES_NOT_EXIST));
@@ -95,7 +95,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public TagsDto findUserSuperTag(long userId) {
+    public TagsDto findUserSuperTag(Long userId) {
         validator.isId(userId);
         OrdersDto userOrders = findUserOrders(userId);
         List<TagDto> userTagList = SuperTagService.findUserTags(userOrders);

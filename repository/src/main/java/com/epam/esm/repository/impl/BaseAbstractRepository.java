@@ -8,6 +8,14 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This is the BaseAbstractRepository class; it implements {@link IBaseRepository} interface.
+ * <p>
+ * Please see the {@link IBaseRepository} class for true identity.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 public abstract class BaseAbstractRepository<T extends BaseModel> implements IBaseRepository<T> {
 
     private final EntityManager entityManager;

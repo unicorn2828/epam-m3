@@ -9,6 +9,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
+/**
+ * This is the UserRepository class; it  extends {@link BaseAbstractRepository} class.
+ * <p>
+ * Please see the {@link BaseAbstractRepository} and {@link IUserRepository} classes for true identity.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 @Repository
 public class UserRepository extends BaseAbstractRepository<User> implements IUserRepository {
     private static final String LOGIN = "login";

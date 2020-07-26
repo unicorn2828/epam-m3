@@ -1,5 +1,13 @@
 package com.epam.esm.manager.data;
 
+import com.epam.esm.manager.CamelStringManager;
+
+/**
+ * This is the ManagerData class; it contains constant data for {@link CamelStringManager} class.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
  public class ManagerData {
      public static final String SCAN_PACKAGE = "com.epam.esm.dto";
      public static final String PATTERN_COMPILE = ".*";

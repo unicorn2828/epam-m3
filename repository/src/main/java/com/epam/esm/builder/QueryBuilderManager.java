@@ -8,9 +8,15 @@ import java.util.StringJoiner;
 
 import static com.epam.esm.builder.QueryBuilderData.*;
 
+/**
+ * This is the QueryBuilderManager class; it is a helper class for {@link QueryBuilder} class.
+ *
+ * @author Vitaly Kononov
+ * @version 1.0
+ */
 @Component
 class QueryBuilderManager {
-    
+
     String receiveQueryString(String tableName,
                               String searchBy,
                               String searchByParam,
