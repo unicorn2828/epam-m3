@@ -40,6 +40,7 @@ public abstract class BaseAbstractRepository<T extends BaseModel> implements IBa
 
     @Override
     public List<T> findAll(int pageNumber, int pageSize, String sql) {
+        System.out.println(sql);
         TypedQuery<T> query = entityManager.createQuery(sql, clazz);
         query.setFirstResult((pageNumber - 1) * pageSize);
         query.setMaxResults(pageSize);

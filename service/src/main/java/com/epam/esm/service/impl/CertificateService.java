@@ -13,7 +13,6 @@ import com.epam.esm.repository.ITagRepository;
 import com.epam.esm.service.DataProcessingService;
 import com.epam.esm.service.ICertificateService;
 import com.epam.esm.validation.CertificateValidator;
-import com.epam.esm.validation.CommonValidator;
 import com.epam.esm.validation.TagValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.epam.esm.exception.ServiceExceptionCode.*;
+import static com.epam.esm.exception.ServiceExceptionCode.CERTIFICATE_IS_ORDERED;
+import static com.epam.esm.exception.ServiceExceptionCode.CERTIFICATE_WITH_THIS_ID_DOES_NOT_EXIST;
 import static com.epam.esm.service.DataProcessingService.PageParamType.PAGE_NUMBER;
 import static com.epam.esm.service.DataProcessingService.PageParamType.PAGE_SIZE;
 
@@ -39,7 +39,6 @@ public class CertificateService implements ICertificateService {
     private final CertificateValidator validator;
     private final DataProcessingService service;
     private final ITagRepository tagRepository;
-    private final CommonValidator commonValidator;
     private final TagValidator tagValidator;
     private final QueryBuilder queryBuilder;
     private final ModelMapper mapper;

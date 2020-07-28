@@ -1,8 +1,8 @@
 package com.epam.esm.service;
 
-import com.epam.esm.manager.CamelStringManager;
 import com.epam.esm.exception.ServiceException;
 import com.epam.esm.exception.ServiceExceptionCode;
+import com.epam.esm.manager.CamelStringManager;
 import com.epam.esm.validation.PaginationValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.epam.esm.exception.ServiceExceptionCode.*;
+import static com.epam.esm.exception.ServiceExceptionCode.PAGE_NUMBER_OR_SIZE_NOT_INTEGER;
 
 @Slf4j
 @Component

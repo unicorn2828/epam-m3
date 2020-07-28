@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.util.Map;
 
 /**
@@ -35,7 +34,7 @@ public class CertificateController {
 
     @GetMapping(value = "/{certificateId}")
     @ResponseStatus(HttpStatus.OK)
-    public CertificateDto findCertificateById(@Valid @PathVariable("certificateId") @Positive final Long certificateId) {
+    public CertificateDto findCertificateById(@PathVariable("certificateId") final Long certificateId) {
         CertificateDto certificate = certificateService.find(certificateId);
         return hateoas.add(certificate);
     }
@@ -49,7 +48,7 @@ public class CertificateController {
 
     @DeleteMapping(value = "/{certificateId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Void> removeCertificateById(@Valid @PathVariable("certificateId") @Positive final Long certificateId) {
+    public ResponseEntity<Void> removeCertificateById(@Valid @PathVariable("certificateId") final Long certificateId) {
         certificateService.delete(certificateId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

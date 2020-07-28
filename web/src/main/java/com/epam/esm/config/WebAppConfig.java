@@ -4,6 +4,7 @@ import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.model.Certificate;
 import com.epam.esm.model.Tag;
+import com.epam.esm.validation.TagValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
