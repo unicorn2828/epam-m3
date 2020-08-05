@@ -2,8 +2,6 @@ plugins {
     id 'war'
 }
 dependencies {
-    implementation "org.projectlombok:lombok:${lombokVersion}"
-        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     implementation project(':repository')
     implementation project(':service')
 }
