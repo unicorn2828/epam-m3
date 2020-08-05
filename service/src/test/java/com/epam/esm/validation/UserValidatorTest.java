@@ -1,7 +1,7 @@
 package com.epam.esm.validation;
 
 import com.epam.esm.dto.UserDto;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class UserValidatorTest {
     @InjectMocks
     private UserValidator userValidator;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         testUser = new UserDto();
         testUser.setId(USER_ID);
