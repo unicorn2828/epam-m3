@@ -1,11 +1,11 @@
 package com.epam.esm.manager;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-class CamelStringManagerTest {
+public class CamelStringManagerTest {
     private static final String IN_TAG_NAME_STRING = "tagname";
     private static final String EXPECTED_TAG_NAME_STRING = "tagName";
     private static final String IN_TEST_STRING = "TEST";
@@ -14,24 +14,24 @@ class CamelStringManagerTest {
     private CamelStringManager manager;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         manager = new CamelStringManager();
     }
 
     @Test
-    void toCamelStringTest() {
+    public void toCamelStringTest() {
         String actual = manager.toCamelString(IN_TAG_NAME_STRING);
         assertEquals(actual, EXPECTED_TAG_NAME_STRING);
     }
 
     @Test
-    void toCamelStringSecondTest() {
+    public void toCamelStringSecondTest() {
         String actual = manager.toCamelString(IN_TEST_STRING);
         assertEquals(actual, EXPECTED_TEST_STRING);
     }
 
     @Test
-    void toCamelStringNegativeTest() {
+    public void toCamelStringNegativeTest() {
         String actual = manager.toCamelString(IN_TEST_STRING);
         assertNotEquals(actual, IN_TEST_STRING);
     }
