@@ -6,7 +6,7 @@ import com.epam.esm.repository.ITagRepository;
 import com.epam.esm.service.impl.TagService;
 import com.epam.esm.validation.TagValidator;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class TagServiceTest {
     @InjectMocks
     private TagService tagService;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         tag = new Tag();
         tag.setId(TAG_ID);
