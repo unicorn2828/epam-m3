@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
-class TagServiceTest {
+public class TagServiceTest {
     private static final String TAG_NAME = "test";
     private static final Long TAG_ID = 1L;
     private TagDto tagDto;
