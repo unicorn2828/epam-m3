@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
-class UserValidatorTest {
+public class UserValidatorTest {
     private static final String USER_LOGIN = "test";
     private static final Long USER_ID = 1L;
     private UserDto testUser;
