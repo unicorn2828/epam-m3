@@ -1,6 +1,6 @@
 package com.epam.esm.manager;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,7 +13,7 @@ public class CamelStringManagerTest {
 
     private CamelStringManager manager;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         manager = new CamelStringManager();
     }
