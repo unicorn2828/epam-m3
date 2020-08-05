@@ -35,13 +35,13 @@ subprojects {
         implementation "org.springframework.boot:spring-boot-starter-hateoas:${springBootVersion}"
         testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     }
-    
+     task wrapper(type: Wrapper) {
+    gradleVersion = '6.4.1'
+}
 }
 allprojects {
     group 'com.epam'
     version '1.0-SNAPSHOT'
 }
- task wrapper(type: Wrapper) {
-    gradleVersion = '6.4.1'
-}
+
 
