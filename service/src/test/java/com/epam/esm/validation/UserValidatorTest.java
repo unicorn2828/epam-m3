@@ -2,7 +2,7 @@ package com.epam.esm.validation;
 
 import com.epam.esm.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
