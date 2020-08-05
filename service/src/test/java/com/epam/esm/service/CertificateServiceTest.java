@@ -6,7 +6,7 @@ import com.epam.esm.repository.ICertificateRepository;
 import com.epam.esm.service.impl.CertificateService;
 import com.epam.esm.validation.CertificateValidator;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
