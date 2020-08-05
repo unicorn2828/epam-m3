@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
-class CertificateServiceTest {
+public class CertificateServiceTest {
     private static final Long CERTIFICATE_ID = 1L;
     @Mock
     private ICertificateRepository certificateRepository;
